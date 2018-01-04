@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="simpleDICOMStorage">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" name="listeners">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="listener">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="storage">
+                      <xs:complexType>
+                        <xs:attribute name="root" type="xs:string" use="required" />
+                        <xs:attribute name="maxDiskUsage" type="xs:string" use="required" />
+                        <xs:attribute name="strategy" type="xs:string" use="required" />
+                        <xs:attribute name="modalityRuleSet" type="xs:string" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="port" type="xs:unsignedShort" use="required" />
+                  <xs:attribute name="aeTitle" type="xs:string" use="required" />
+                  <xs:attribute name="sopClassSet" type="xs:string" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="sopClassSets">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="sopClassSet" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="sopClass" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:attribute name="uid" type="xs:string" use="required"/>
+                      </xs:complexType>
+                      </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="name" type="xs:string" use="required"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="modalityRuleSets">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="modalityRuleSet" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="modalityRule" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:attribute name="modality" type="xs:string" use="required"/>
+                        <xs:attribute name="ratio" type="xs:string" use="optional"/>
+                        <xs:attribute name="action" type="xs:string" use="required"/>
+                        <xs:attribute name="outputTransferSyntax" type="xs:string" use="optional"/>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="name" type="xs:string" use="required"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="storageStrategies">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="storageStrategy" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="directories">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element maxOccurs="unbounded" name="directory">
+                            <xs:complexType>
+                              <xs:attribute name="name" type="xs:string" use="required" />
+                              <xs:attribute name="tag" type="xs:string" use="required" />
+                              <xs:attribute name="defaultVal" type="xs:string" use="required" />
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="files">
+                      <xs:complexType>
+                        <xs:attribute name="extension" type="xs:string" use="required" />
+                        <xs:attribute name="overwrite" type="xs:boolean" use="required" />
+                        <xs:attribute name="tag" type="xs:string" use="optional" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="name" type="xs:string" use="required" />
+                  <xs:attribute name="useDateSubDirectories" type="xs:boolean" use="optional" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

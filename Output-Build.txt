@@ -1,0 +1,5 @@
+﻿1>------ Skipped Build: Project: SimpleDICOMStorageService, Configuration: Debug x86 ------
+1>Project not selected to build for this solution configuration 
+2>------ Build started: Project: UnitTests, Configuration: Debug Any CPU ------
+2>  UnitTests -> C:\Repositories\SimpleDICOMStorage\UnitTests\bin\Debug\UnitTests.dll
+========== Build: 1 succeeded, 0 failed, 0 up-to-date, 1 skipped ==========

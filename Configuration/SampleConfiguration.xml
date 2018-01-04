@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- simple DICOM storage configuration file -->
+<simpleDICOMStorage>
+
+  <!-- listeners are network ports that can receive DICOM transfers from peers -->
+  <listeners>
+
+    <listener port="32760" aeTitle="COLINSPC" sopClassSet="AllWildCard" >
+      <storage root="c:\temp\COLINSPC" strategy="patientCentric" modalityRuleSet="standard" maxDiskUsage="99%"/>
+    </listener>
+
+    <listener port="32761" aeTitle="AnotherAE" sopClassSet="AllWildCard">
+      <storage root="c:\temp\AnotherAE"  strategy="patientCentric" modalityRuleSet="decompress" maxDiskUsage="99%"/>
+    </listener>
+
+  </listeners>
+
+  <!-- 
+      SOP classes the listener supports.  Allows for the wildcard * character on the END of the 
+      string only.
+  -->
+  <sopClassSets>
+    <sopClassSet name="all">
+      <sopClass uid="*" />
+    </sopClassSet>
+    <sopClassSet name="AllWildCard">
+      <sopClass uid="1.2.840.10008.5.1.4.1.1.*" />
+    </sopClassSet>
+  </sopClassSets>
+  
+  <!-- 
+       Modality rules specify actions to use when an image with that 
+       modality type is recieved.  The special keyword "all" refers to 
+       every modality and is used if no other modality match exists. 
+       
+       Modality rules are applied on a per AE basis.
+   -->
+  <modalityRuleSets>
+
+    <modalityRuleSet name="decompress">
+      <modalityRule modality="all" action="decompress" outputTransferSyntax="1.2.840.10008.1.2.1"/>
+    </modalityRuleSet>
+   
+    <!-- compress with extended for 12 bit data JPEG .. if it exceeds 12 bits no compression applies -->
+    <modalityRuleSet name="standard">
+      <modalityRule modality="all" action="compress" ratio="5:1" outputTransferSyntax="1.2.840.10008.1.2.4.51"/>
+    </modalityRuleSet>
+
+  </modalityRuleSets>
+
+  <!-- 
+       Storage strategies define how images are stored, the structure of the 
+       store, etc ... For file systems directories are pulled by tags.  In 
+       future we may end up using amazon EC3 store or egnyte or similar.
+  -->
+  <storageStrategies>
+    <storageStrategy name="patientCentric" useDateSubDirectories="true">
+
+      <!-- 
+           the hierachy of tags to use to define the file system path.
+           If the tag cannot be found the defaultVal is used instead.
+      -->
+      <directories>
+        <directory name="PatientID" tag="0x00100010" defaultVal="unknown"/>
+        <directory name="StudyDate" tag="528432" defaultVal="unknown" />
+        <directory name="SeriesDescription" tag="528446" defaultVal="unknown" />
+      </directories>
+
+      <!-- If tag is not specified (or not present) a guid is used -->
+      <files tag="0x00080018" overwrite="false" extension=".dcm" />
+
+    </storageStrategy>
+
+    <storageStrategy name="patientCentric2">
+      <directories>
+        <directory name="Patient" tag="0x00100010" defaultVal="unknown"/>
+        <directory name="Study" tag="1048592" defaultVal="unknown" />
+        <directory name="Series" tag="1048592" defaultVal="unknown" />
+      </directories>
+
+      <files tag="0x00080018" overwrite="false" extension=".dcm" />
+
+    </storageStrategy>
+  </storageStrategies>
+
+
+</simpleDICOMStorage>
